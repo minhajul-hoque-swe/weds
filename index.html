@@ -216,6 +216,10 @@ h2,.story,.sh,.cdlock,footer{text-shadow:0 1px 8px rgba(40,8,18,.38)}
 .tc span{display:block;font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose2);margin-bottom:3px}
 .tc b{display:block;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:20px;color:var(--lavd);line-height:1.25}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.arch h1 span,.hc h1 span{opacity:1}}
+#program .tday{transition:filter 1s ease,opacity 1s ease}
+#program.locked .tday{filter:blur(10px);opacity:.75;pointer-events:none;user-select:none;-webkit-user-select:none}
+#program .plock{display:none}
+#program.locked .plock{display:block;position:absolute;left:50%;top:230px;transform:translateX(-50%);z-index:4;width:max-content;max-width:86%;padding:12px 20px;border-radius:14px;background:rgba(69,19,28,.88);color:#f6ebe4;font-weight:700;font-size:16px;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
@@ -264,8 +268,9 @@ h2,.story,.sh,.cdlock,footer{text-shadow:0 1px 8px rgba(40,8,18,.38)}
   <div class="cdwrap locked rv rv-z" id="cdwrap"><div class="count" id="count"></div><div class="cdlock">🔒 Scratch the card<br>to unlock the countdown</div></div>
 </section>
 
-<section id="program">
+<section id="program" class="locked">
   <h2 class="rv">Programme</h2><div class="div rv">❀</div>
+  <div class="plock">🔒 Scratch the card to reveal<br>the programme</div>
   <div class="tday"><div class="thead rv"><div class="cz">Haldi Night</div><h3>Yellow Touch</h3><div class="tdate">31 December 2026</div></div><ul class="tlist"><li class="rv"><div class="tc"><span>7:00 – 7:30 PM</span><b>Guest Arrival & Welcome</b></div></li><li class="rv"><div class="tc"><span>7:30 – 8:00 PM</span><b>Couple’s Grand Entry</b></div></li><li class="rv"><div class="tc"><span>8:00 – 10:00 PM</span><b>Haldi Ceremony</b></div></li><li class="rv"><div class="tc"><span>10:00 – 10:30 PM</span><b>Couple & Family Photoshoot</b></div></li><li class="rv"><div class="tc"><span>10:30 – 11:30 PM</span><b>Dinner</b></div></li><li class="rv"><div class="tc"><span>11:30 PM – 12:30 AM</span><b>Music & Dance</b></div></li><li class="rv"><div class="tc"><span>1:00 AM</span><b>Closing</b></div></li></ul></div>
   <div class="tday"><div class="thead rv"><div class="cz">The Big Day</div><h3>Wedding</h3><div class="tdate">01 January 2027</div></div><ul class="tlist"><li class="rv"><div class="tc"><span>12:00 – 1:00 PM</span><b>Guest Arrival & Welcome</b></div></li><li class="rv"><div class="tc"><span>1:00 – 1:30 PM</span><b>Bride’s Entry</b></div></li><li class="rv"><div class="tc"><span>1:30 – 2:00 PM</span><b>Groom’s Entry</b></div></li><li class="rv"><div class="tc"><span>2:00 – 2:30 PM</span><b>Nikah</b></div></li><li class="rv"><div class="tc"><span>2:30 – 3:00 PM</span><b>Walima</b></div></li><li class="rv"><div class="tc"><span>3:00 – 3:15 PM</span><b>Bride’s Stage Entry</b></div></li><li class="rv"><div class="tc"><span>3:15 – 4:00 PM</span><b>Couple’s Moments & Photos</b></div></li><li class="rv"><div class="tc"><span>4:00 – 4:30 PM</span><b>Wedding Feast</b></div></li><li class="rv"><div class="tc"><span>4:30 – 5:15 PM</span><b>Family & Friends Photoshoot</b></div></li><li class="rv"><div class="tc"><span>5:15 – 5:45 PM</span><b>Guest Greetings</b></div></li><li class="rv"><div class="tc"><span>5:45 – 6:00 PM</span><b>Closing & Departure</b></div></li></ul></div>
 </section>
@@ -364,10 +369,9 @@ tick();setInterval(tick,1000);
 
 // scratch cards -> unlock countdown
 const SKEY='mj_sa_scratch_v1',doneSet=new Set(),cards=[...$$('.scr')];
-try{JSON.parse(localStorage.getItem(SKEY)||'[]').forEach(k=>doneSet.add(k))}catch(e){}
-function checkAll(){if(cards.every(c=>doneSet.has(c.dataset.k))){const w=$('#cdwrap');if(w.classList.contains('locked')){w.classList.remove('locked');w.classList.add('pop')}}}
+function checkAll(){if(cards.every(c=>doneSet.has(c.dataset.k))){$('#program').classList.remove('locked');const w=$('#cdwrap');if(w.classList.contains('locked')){w.classList.remove('locked');w.classList.add('pop')}}}
 function finish(c){if(c.classList.contains('done'))return;c.classList.add('done');doneSet.add(c.dataset.k);
-  try{localStorage.setItem(SKEY,JSON.stringify([...doneSet]))}catch(e){}setTimeout(checkAll,700)}
+  setTimeout(checkAll,700)}
 function setupScratch(c){
   const k=c.dataset.k;if(doneSet.has(k)){c.classList.add('done');return}
   const dpr=Math.min(devicePixelRatio||1,2),W=c.offsetWidth,H=c.offsetHeight;c.width=W*dpr;c.height=H*dpr;

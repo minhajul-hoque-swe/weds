@@ -37,7 +37,7 @@ h2{font-size:21px;color:var(--hd)}
 
 /* cover */
 #cover{position:fixed;inset:0;width:100%;height:100%;container-type:size;touch-action:none;overscroll-behavior:none;z-index:60;background:#5c2523;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:background-color 1.3s ease .35s,visibility 0s 2.1s}
-#stage{position:relative;aspect-ratio:752/1390;width:min(100vw,calc(100svh * .541));width:min(100cqw,calc(100cqh * .541));max-width:100%;perspective:1500px;perspective-origin:50% 50%}
+#stage{position:absolute;inset:0;width:100%;height:100%;perspective:1500px;perspective-origin:50% 50%}
 .door{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform 1.9s cubic-bezier(.6,.02,.2,1) .15s,opacity .5s ease 1.6s;will-change:transform}
 .door img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;user-select:none;-webkit-user-drag:none}
 .door.dl{clip-path:inset(0 50.4% 0 0);transform-origin:0 50%}
@@ -226,7 +226,6 @@ h2,.story,.sh,.cdlock,footer{text-shadow:0 1px 8px rgba(40,8,18,.38)}
     <div class="door dr"><img src="cover.jpg" alt="" draggable="false"></div>
     <div class="ring" id="ring"></div>
   </div>
-  <div class="taphint">Tap to open</div>
 </div>
 
 <section id="hero">

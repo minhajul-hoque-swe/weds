@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#45131c">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Minhaj &amp; Saima – Wedding Invitation">
-<meta property="og:description" content="Yellow Touch 31 Dec 2026 · Wedding Day 01 Jan 2027, 2 PM · Alo Convention Hall, Feni">
+<meta property="og:description" content="You are warmly invited. Open the invitation to see the details.">
 <meta property="og:image" content="https://YOUR-SITE.vercel.app/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -20,7 +20,8 @@
 <style>
 :root{--bg:#fcf8f4;--pg:#45131c;--hd:#f6ebe4;--ft:#f6ebe4;--card:#ffffff;--ink:#3b1a22;--muted:#86666d;--rose:#c0787f;--rose2:#8f2d43;--lav:#a8606d;--lavd:#6b1f33;--peach:#efc9c4;--sage:#b98a8f;--taupe:#d9b0aa;--line:#ead6d1;--tl:#f8eeec;--tp:#fbf0ec;color-scheme:light;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+#hero,#story,#lower,section{overflow-x:clip}
 *{box-sizing:border-box;margin:0}
 body{background:var(--pg);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;line-height:1.5;text-align:center;overflow-x:hidden;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 .script{font-family:'Great Vibes','Brush Script MT',cursive;font-weight:400}
@@ -35,8 +36,8 @@ h2{font-size:21px;color:var(--hd)}
 .rv.in{opacity:1;transform:none}
 
 /* cover */
-#cover{position:fixed;inset:0;z-index:60;background:#5c2523;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:background-color 1.3s ease .35s,visibility 0s 2.1s}
-#stage{position:relative;aspect-ratio:752/1390;width:min(100vw,calc(100svh * .541));perspective:1500px;perspective-origin:50% 50%}
+#cover{position:fixed;inset:0;width:100%;height:100%;container-type:size;touch-action:none;overscroll-behavior:none;z-index:60;background:#5c2523;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:background-color 1.3s ease .35s,visibility 0s 2.1s}
+#stage{position:relative;aspect-ratio:752/1390;width:min(100vw,calc(100svh * .541));width:min(100cqw,calc(100cqh * .541));max-width:100%;perspective:1500px;perspective-origin:50% 50%}
 .door{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform 1.9s cubic-bezier(.6,.02,.2,1) .15s,opacity .5s ease 1.6s;will-change:transform}
 .door img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;user-select:none;-webkit-user-drag:none}
 .door.dl{clip-path:inset(0 50.4% 0 0);transform-origin:0 50%}

@@ -54,6 +54,9 @@ h2{font-size:21px;color:var(--hd)}
 @keyframes blink{50%{opacity:.35}}
 @keyframes breathe{50%{transform:scale(1.02)}}
 
+/* soft music toggle */
+#snd{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(250,240,233,.92);color:#7d1f35;font-size:19px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(58,16,28,.22);display:none;align-items:center;justify-content:center;padding:0}
+body.opened #snd{display:flex}
 /* petals */
 .petal{position:fixed;top:-30px;z-index:5;pointer-events:none;border-radius:80% 0 80% 0;opacity:.25;animation:fall linear infinite}
 @keyframes fall{to{transform:translate3d(60px,112vh,0) rotate(600deg)}}
@@ -331,6 +334,7 @@ h2,.story,.sh,.cdlock,footer{text-shadow:0 1px 8px rgba(40,8,18,.38)}
 </footer>
 </div>
 
+<button id="snd" type="button" aria-label="Music on/off">♪</button>
 <script>
 /* ===== EDIT YOUR DETAILS HERE ===== */
 const CFG={
@@ -350,8 +354,22 @@ function placeRing(){const st=$('#stage'),w=st.clientWidth,hh=st.clientHeight,iw
   r.style.cssText=`left:${x-R}px;top:${y-R}px;width:${2*R}px;height:${2*R}px`}
 placeRing();addEventListener('resize',placeRing);
 document.body.style.overflow='hidden';
+
+// background music
+const Snd=(()=>{const au=new Audio('music.mp3');au.loop=true;au.preload='auto';au.volume=0;
+  let on=false,fade;const MAX=.55;
+  function ramp(to,ms,done){clearInterval(fade);const from=au.volume,t0=Date.now();
+    fade=setInterval(()=>{const k=Math.min(1,(Date.now()-t0)/ms);au.volume=Math.max(0,Math.min(1,from+(to-from)*k));
+      if(k>=1){clearInterval(fade);done&&done()}},50)}
+  function ui(){const b=$('#snd');b.textContent=on?'♪':'✕';b.style.opacity=on?1:.6}
+  function play(){const p=au.play();if(p&&p.catch)p.catch(()=>{on=false;ui()});ramp(MAX,2500)}
+  return{start(){on=true;ui();play()},
+    toggle(){on=!on;ui();if(on)play();else ramp(0,500,()=>au.pause())},
+    pause(){if(on)au.pause()},resume(){if(on&&au.paused)play()}}})();
+$('#snd').addEventListener('click',e=>{e.stopPropagation();Snd.toggle()});
+document.addEventListener('visibilitychange',()=>document.hidden?Snd.pause():Snd.resume());
 $('#cover').addEventListener('click',()=>{const c=$('#cover');if(c.classList.contains('open'))return;
-  c.classList.add('open');document.body.classList.add('opened');document.body.style.overflow='';
+  Snd.start();c.classList.add('open');document.body.classList.add('opened');document.body.style.overflow='';
   for(let i=0;i<16;i++){const p=document.createElement('i');p.className='petal';const s=8+Math.random()*10;
     p.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s*1.3}px;background:${rnd(['#d9909a','#c0787f','#e8bcae','#b0505f','#f0cfc4'])};animation-duration:${9+Math.random()*9}s;animation-delay:${Math.random()*6}s`;
     document.body.appendChild(p)}});
